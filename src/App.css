@@ -1,0 +1,126 @@
+.App {
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+
+.searchForm {
+  display: flex;
+  text-align: center;
+  background-color: #081f62;
+  height: 5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0rem 5rem;
+}
+.searchForm input,
+.searchForm select {
+  height: 2rem;
+  width: 10rem;
+  margin: 0rem 1rem;
+}
+.searchForm input {
+  flex: 1;
+}
+.searchForm input:focus {
+  -webkit-box-shadow: inset -1px 3px 8px 5px #1f87ff, 2px 5px 16px 0px #0b325e,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: inset -1px 3px 8px 5px #1f87ff, 2px 5px 16px 0px #0b325e,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+}
+.searchForm button {
+  width: 7rem;
+  height: 3rem;
+  background-color: #e7e9f0;
+  color: #051747;
+  border-radius: 20px;
+}
+
+table,
+tr,
+th,
+td {
+  border: none;
+  padding: 2rem;
+}
+tbody {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 80%;
+  -webkit-box-shadow: 0px 14px 25px 0px rgba(0, 0, 0, 0.62);
+  -moz-box-shadow: 0px 14px 25px 0px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 14px 25px 0px rgba(0, 0, 0, 0.62);
+}
+table {
+  display: flex;
+  justify-content: center;
+
+  /* align-items: center; */
+}
+tr {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  text-align: center;
+}
+.TableHeader {
+  background-color: #051747;
+  color: white;
+  font-size: large;
+}
+.tableRow {
+  background-color: #e7e9f0;
+}
+.tableRow:nth-child(even) {
+  background-color: #fefefe;
+}
+
+.modale {
+  display: flex; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 6rem; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto;
+  justify-content: center;
+}
+
+.madaleContainer {
+  background-color: #e7e9f0;
+  width: 80%;
+  position: relative;
+  scroll-behavior: smooth;
+  border-top: 1rem solid #051747;
+}
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.madaleContainer ul {
+  display: flex;
+  flex-direction: column;
+}
+.madaleContainer li {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: start;
+  align-items: center;
+  font-size: 1.2rem;
+}
+.madaleContainer p {
+  margin: 0rem 1rem;
+}
+.album {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 1rem;
+  position: absolute;
+}
+
+.album img {
+  max-width: 20rem;
+}
