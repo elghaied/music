@@ -35,24 +35,28 @@ class More extends Component {
       <div className="modale">
         <div className="madaleContainer">
           <ul>
-            <li>Title : {title}</li>
+            <li> <span className="title">Title</span> : {title}</li>
             <li>
-              Artist :
+            <span className="title">Artist</span>  :
               {more["artist-credit"].map((artist, index) => (
                 <p key={artist["artist"].id}>{artist["artist"]["name"]}</p>
               ))}
             </li>
-            <li>Album : {album}</li>
+            <li><span className="title">Album</span>  : {album}</li>
             <li>
-              Genre :{" "}
+            <span className="title">Genre</span>
+               :{" "}
               {genres.map((genre, index) => (
-                <p ke={genre.id}>{genre["name"]} </p> 
+                <p className="genre" key={index}>{genre["name"]} </p> 
               ))}
             </li>
 
-            <li>Durée : {duration(length)} </li>
             <li>
-              Note : {rating.value ? rating.value : 0}/5 ({rating["votes-count"]} vote){" "}
+            <span className="title">Durée</span>
+               : {duration(length)} </li>
+            <li>
+            <span className="title">Note</span>
+               : {rating.value ? rating.value : 0}/5 ({rating["votes-count"]} vote){" "}
             </li>
             
             <span className="closeButton" onClick={handelClose}>CLOSE</span>
@@ -61,7 +65,7 @@ class More extends Component {
           </ul>
           
           <div className="album">
-             {cover ? cover.map(cimage =><img src={cimage} alt="cover" />)    : null }
+             {cover ? cover.map((cimage,index) =><img key={index} src={cimage} alt="cover" />)    : null }
              </div>
         </div>
       </div>

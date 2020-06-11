@@ -33,7 +33,8 @@ class Songs extends Component {
 
 
         <td>
-          <button name={id} onClick={handelMore}>More</button>
+          <button className="moreInfo" name={id} onClick={handelMore}> ♫ </button>
+    
         </td>
       </tr>
     );

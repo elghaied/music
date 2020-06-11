@@ -11,14 +11,17 @@ class Search extends Component {
       songs: [],
       message: "",
       type: "artist",
+      count: 0,
       more: [],
       cover: [],
       id: "",
       coversID: [],
-      offset: null,
+      offset: 0,
       alert: false,
       alertMessage: '',
-      test: [],
+      loading: false,
+
+     
     };
     this.searchBox = React.createRef();
   }
@@ -39,13 +42,12 @@ class Search extends Component {
  
     mainSearch(mytype, mysearch, myoffset, (response) => {
       this.setState({
-        // songs: [this.state.songs,response.recordings],
-        test: [...this.state.songs,...response.recordings],
+        songs:  [...this.state.songs,...response.recordings],
         offset: myoffset
       });
       console.log(this.state.songs);
       console.log(response.recordings);
-      console.log(this.state.test);
+     
     });
 
 
@@ -57,7 +59,7 @@ class Search extends Component {
     let mysearch = this.state.message;
     let mytype = this.state.type;
     let myoffset = this.state.offset;
-    if(myoffset === null){
+    if(myoffset !== 0){
       myoffset = 0;
 
     }
@@ -66,35 +68,44 @@ class Search extends Component {
     mainSearch(mytype, mysearch, myoffset, (response) => {
       this.setState({
         songs: response.recordings,
-        offset: 100
+        offset: 0,
+        count : response.count,
+        alert : response.recordings.length === 0 ? true : false ,
+        alertMessage : response.recordings.length === 0 ? "There's are no Results" : ""
       });
-      console.log(response.recordings);
+      console.log("search results",response.recordings);
+      console.log("search lentgh",response.recordings.length);
     });
   };
   handelClose = (event) => {
     event.preventDefault();
+    document.body.style.overflow = "auto";
 
     this.setState({
       more: [],
       shown: false,
       cover:[],
-      offset:  this.state.offset
+      
+    
     });
   };
 
   handelMore = (event) => {
-    event.preventDefault();
-
+   
+    console.log("before set state",this.state.loading);
     console.log(event.target.name);
+    document.body.style.overflow = "hidden";
 
     // to recover more information about specific content
     trackInfo(event.target.name, (response) => {
       this.setState({
+        loading: true,
         shown: true,
         more: response,
         id: response.id,
         coversID: response.releases.map((cover) => cover.id),
       });
+      console.log("after setstate in handel more ",this.state.loading);
       console.log("more", response);
       console.log("cover ids", this.state.coversID);
       let mycover = response.releases.map((cover) => cover.id);
@@ -106,6 +117,7 @@ class Search extends Component {
     let handelCover = (event) => {
       event.map((cdID) =>
         getCover(cdID, (response) => {
+          console.log("conver respone",response);
           if (response.images !== undefined) {
             response.images.map((img) =>
               // typeof(img.image)!=='undefined' ? img.image : null
@@ -117,21 +129,33 @@ class Search extends Component {
           }
         })
       );
+      this.setState({
+        loading: false,
+
+      })
+      
+
     };
+
+    console.log("after album",this.state.loading);
   };
   componentDidMount() {
     this.searchBox.current.focus();
   }
+ 
   componentDidUpdate(){
     // console.log(this.state.cover);
-    console.log("componentUpdate",this.state.offset);
+    // console.log("componentUpdate",this.state.offset);
+    // console.log("did update loading",this.state.loading);
 
   }
 
+
   render() {
-    const { message, type, songs, more, cover, shown,alertMessage,alert} = this.state;
+    const { message, type, songs, more, cover, shown,alertMessage,alert,count,loading} = this.state;
+  
     return (
-      <>
+      <main>
         <form className="searchForm" onSubmit={this.handelSubmit}>
           <input
             ref={this.searchBox}
@@ -163,6 +187,9 @@ class Search extends Component {
         </form>
         {songs.length ? (
           <>
+          {/* here to show the result and load more  */}
+
+        <p className="counter">There are {songs.length} results out of {count} for more results press <button className="load" onClick={this.handeloffset}> Add more </button></p>
           <table>
             <tbody>
               <tr className="TableHeader">
@@ -184,7 +211,8 @@ class Search extends Component {
               ))}
             </tbody>
           </table>
-          <button onClick={this.handeloffset}> Add more </button>
+          <div className="addmore"><button className="load" onClick={this.handeloffset}> Add more </button></div>
+          
 
           </>
         ) : null}
@@ -192,7 +220,7 @@ class Search extends Component {
         {shown ? (
           
           <More
-            key={more.id}
+           
             cover={cover}
             more={more}
             {...more}
@@ -200,7 +228,12 @@ class Search extends Component {
           />
         ) : null}
         {alert ? <p className="alert"> {alertMessage} </p> : null}
-      </>
+
+        {loading ? <div className="loading">  <img src={'../img/loadingImage.gif'} alt="loading"/>
+        
+        <p>loading</p>
+ </div> : null}
+      </main>
     );
   }
 }
